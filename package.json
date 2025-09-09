@@ -17,6 +17,7 @@
   ],
   "author": "Ananya Singh",
   "license": "UNLICENSED",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/Aczetic/anmol-publications-backend/issues"
   },
@@ -28,5 +29,10 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "typescript": "^5.9.2"
   }
 }
