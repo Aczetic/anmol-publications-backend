@@ -8,5 +8,8 @@ app.get('/ping' , (req,res)=>{ // free tier tactic to prevent from sleeping
     res.status(200).send("pinged");
 })
 
+app.get('/ping2' , (req,res)=>{
+    res.status(200).send('ping2');
+})
 
 app.listen(process.env.PORT||3000 , ()=>console.log(`Listening at port ${process.env.PORT}`));
