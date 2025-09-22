@@ -1,8 +1,15 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import { configDotenv } from "dotenv";
+import connectDB from "./db.js";
+import miscellaneousRoutes from './routes/miscellaneous.js'
 
+//global middlewares
 const app = express();
 configDotenv();
+connectDB();
+app.use(express.json());
+app.use(express.urlencoded({extended:true}))
+
 
 app.get('/ping' , (req,res)=>{ // free tier tactic to prevent from sleeping
     res.status(200).send("pinged");
@@ -11,5 +18,8 @@ app.get('/ping' , (req,res)=>{ // free tier tactic to prevent from sleeping
 app.get('/ping2' , (req,res)=>{
     res.status(200).send('ping2');
 })
+
+// some other miscellaneous routes
+app.use('/misc',miscellaneousRoutes);
 
 app.listen(process.env.PORT||3000 , ()=>console.log(`Listening at port ${process.env.PORT}`));
