@@ -26,9 +26,6 @@
   },
   "homepage": "https://github.com/Aczetic/anmol-publications-backend#readme",
   "dependencies": {
-    "@types/bcrypt": "^6.0.0",
-    "@types/cors": "^2.8.19",
-    "@types/jsonwebtoken": "^9.0.10",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -39,7 +36,10 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.6.0",
     "typescript": "^5.9.2"
   }
