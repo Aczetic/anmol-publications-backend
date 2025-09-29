@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-
+//t
 const userSchemaSignUp = z.object({
     role: z.string().regex(/[user|pricipal|teacher]/,{error:"invalid designation"}),
     fullname:    z.string().min(1,"Full name is required").regex(/[a-zA-Z]/ , {error: "Enter a valid name"}),
