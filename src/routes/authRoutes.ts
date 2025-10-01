@@ -1,4 +1,4 @@
-import express, { type NextFunction, type Request, type Response } from 'express';
+import express, { type CookieOptions, type NextFunction, type Request, type Response } from 'express';
 import userModel from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import * as z from 'zod';
@@ -7,6 +7,8 @@ import { userSchemaSignUp, userSchemaLogin } from '../customTypes/UserType.js';
 
 //TODO: forgot password handling
 
+const authCookieSettingsProduction = {httpOnly:true , sameSite:'none', secure:true , maxAge:1000*60*60};
+const authCookieSettingsDevelopment = {httpOnly:true , sameSite:'lax', secure:false , maxAge:1000*60*60};
 
 const router = express.Router();
 
@@ -29,8 +31,9 @@ router.post('/login', async(req,res)=>{
 
                 if( await bcrypt.compare(result.data.password , user.password) ){ // if password is correct
 
-                    const token = jwt.sign( {email:result.data.email} , process.env.JWT_SECRET_KEY as Secret, { expiresIn:'1h' });
-                    res.cookie('token', token , { httpOnly:true , sameSite: 'lax' , maxAge: 1000*60*60})
+                    const token = jwt.sign( {email:user.email , role : user.role} , process.env.JWT_SECRET_KEY as Secret, { expiresIn:'1h' });
+                    
+                    res.cookie('token', token , (process.env.ENVIRONMENT_NAME === 'DEVELOPMENT'? authCookieSettingsDevelopment : authCookieSettingsProduction) as CookieOptions);
                     res.status(200).json({
                         success: true,
                         message: "LOGIN_SUCCESSFUL",
@@ -76,14 +79,14 @@ router.post('/sign-up', async(req,res)=>{
             if(!user){ // if user not found (desired)
 
                 const encryptedPassword = bcrypt.hashSync(result.data.password,10);
-                const token = jwt.sign( {email:result.data.email} , process.env.JWT_SECRET_KEY as Secret , {expiresIn:'1h'})
+                const token = jwt.sign( {email:result.data.email, role:result.data.role} , process.env.JWT_SECRET_KEY as Secret , {expiresIn:'1h'})
 
                 const newUser = await userModel.create({
                     ...result.data,  
                     password: encryptedPassword
                 });//create the user in db
 
-                res.cookie('token',token , {httpOnly:true , sameSite:'lax' , maxAge: 1000*60*60})
+                res.cookie('token', token , (process.env.ENVIRONMENT_NAME === 'DEVELOPMENT'? authCookieSettingsDevelopment : authCookieSettingsProduction) as CookieOptions);
                 setTimeout(()=>{ //TODO: remove this later
                     res.status(201).json({
                         success:true,
@@ -148,9 +151,9 @@ router.get('/logged-in',(req,res)=>{
 
             //update the jwt with new time to extend the session
             const {email,role} = result as {email:string, role:string};
-            const newToken = jwt.sign({email}, process.env.JWT_SECRET_KEY as Secret,{expiresIn:'1h'});
+            const newToken = jwt.sign({email,role}, process.env.JWT_SECRET_KEY as Secret,{expiresIn:'1h'});
 
-            res.cookie('token',newToken,{httpOnly:true , sameSite:'lax', maxAge:1000*60*60});
+            res.cookie('token', token , (process.env.ENVIRONMENT_NAME === 'DEVELOPMENT'? authCookieSettingsDevelopment : authCookieSettingsProduction) as CookieOptions);
             res.status(200).json({
                 success:true,
                 message:"LOGGED_IN",
