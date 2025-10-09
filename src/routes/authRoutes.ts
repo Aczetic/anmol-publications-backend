@@ -38,7 +38,7 @@ router.post('/login', async(req,res)=>{
                     //create an unverified user 
                     const otp = crypto.randomInt(1000,9999);
                     const hashedOtp = bcrypt.hashSync(otp.toString(),10);
-                    const uvUser = await unverifiedUser.create({...user.toObject(),otp:hashedOtp , otpChances:3 , createdAt : Date.now()})
+                    const uvUser = await unverifiedUser.findOneAndUpdate({email:user.email},{...user.toObject(),otp:hashedOtp , otpChances:3 , createdAt : Date.now()},{upsert:true,new:true})
                     const isOtpSent = await sendOtp(1,{
                         name:uvUser.fullname,
                         otp:otp.toString()
