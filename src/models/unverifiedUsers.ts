@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import mongoose from "mongoose";
 
 
@@ -39,12 +40,24 @@ const UserSchema =new  mongoose.Schema({
         type:String,
         required:true
     },
+    otp:{
+        type:String,
+        required:true,
+    },
+    otpChances : {
+        type:Number,
+        required:true,
+        defaultValue:3,
+    },
     createdAt:{
         type:Date,
-        defaultValue:Date.now
-    }
+        required:true,
+        defaultValue:Date.now,
+        expires:600
+    },
+
 })
 
-const userModel = mongoose.model('user',UserSchema);
+const unverifiedUser = mongoose.model('unverifiedUser',UserSchema);
 
-export default userModel;
+export default unverifiedUser;
