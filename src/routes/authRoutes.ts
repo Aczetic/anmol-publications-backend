@@ -33,12 +33,12 @@ router.post('/login', async(req,res)=>{
                 
             }else{ // when user exists then validate password
                 const {otpChances} = await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number} || 3; // if doc is deleted then default to 3
-                if( await bcrypt.compare(result.data.password , user.password) && otpChances > 3){ // if password is correct
+                if( await bcrypt.compare(result.data.password , user.password) && otpChances > 0){ // if password is correct and otp chances are also there
 
                     //create an unverified user 
                     const otp = crypto.randomInt(1000,9999);
                     const hashedOtp = bcrypt.hashSync(otp.toString(),10);
-                    const uvUser = await unverifiedUser.findOneAndUpdate({email:user.email},{...user.toObject(),otp:hashedOtp , otpChances:3 , createdAt : Date.now()},{upsert:true,new:true})
+                    const uvUser = await unverifiedUser.findOneAndUpdate({email:user.email},{...user.toObject(),otp:hashedOtp , otpChances , createdAt : Date.now()},{upsert:true,new:true})
                     const isOtpSent = await sendOtp(1,{
                         name:uvUser.fullname,
                         otp:otp.toString()
@@ -103,7 +103,14 @@ router.post('/sign-up', async(req,res)=>{
             const user = await userModel.findOne({email:result.data.email});
             const {otpChances} =  await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number} || 3 // 3 if the doc gets deleted then default to 3
 
-            if(!user && otpChances > 0 ){// if user not found (desired)
+            if(otpChances <= 0){ // if the user exists in unverifieds and has 0 otp chances 
+                res.status(200).json({
+                    success:false,
+                    message:"OTP_EXHAUSTED"
+                })
+                return ;
+            }
+            else if(!user){// if user not found (desired) && otp chances 
                 
               const encryptedPassword = bcrypt.hashSync(
                 result.data.password,
@@ -115,7 +122,7 @@ router.post('/sign-up', async(req,res)=>{
               // either update the existing user or insert a new user in unverfiedUsers collection
               const uvUser = await unverifiedUser.findOneAndUpdate(
                 { email: result.data.email },
-                { ...result.data, otp: hashedOtp, password: encryptedPassword , otpChances:3, createdAt : Date.now()}, // add the otp, passwrd and new ttl
+                { ...result.data, otp: hashedOtp, password: encryptedPassword , otpChances, createdAt : Date.now()}, // add the otp, passwrd and new ttl
                 { new: true , upsert: true}
               );
 
