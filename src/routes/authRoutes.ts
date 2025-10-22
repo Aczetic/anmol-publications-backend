@@ -32,8 +32,8 @@ router.post('/login', async(req,res)=>{
                 })
                 
             }else{ // when user exists then validate password
-               
-                if( await bcrypt.compare(result.data.password , user.password) ){ // if password is correct
+                const {otpChances} = await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number};
+                if( await bcrypt.compare(result.data.password , user.password) && otpChances > 3){ // if password is correct
 
                     //create an unverified user 
                     const otp = crypto.randomInt(1000,9999);
@@ -101,8 +101,9 @@ router.post('/sign-up', async(req,res)=>{
 
             // check if the users exists or not in the verified users collection
             const user = await userModel.findOne({email:result.data.email});
+            const {otpChances} =  await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number}
 
-            if(!user){// if user not found (desired)
+            if(!user && otpChances > 0 ){// if user not found (desired)
                 
               const encryptedPassword = bcrypt.hashSync(
                 result.data.password,
