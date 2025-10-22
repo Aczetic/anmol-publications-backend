@@ -32,7 +32,7 @@ router.post('/login', async(req,res)=>{
                 })
                 
             }else{ // when user exists then validate password
-                const {otpChances} = await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number};
+                const {otpChances} = await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number} || 3; // if doc is deleted then default to 3
                 if( await bcrypt.compare(result.data.password , user.password) && otpChances > 3){ // if password is correct
 
                     //create an unverified user 
@@ -101,7 +101,7 @@ router.post('/sign-up', async(req,res)=>{
 
             // check if the users exists or not in the verified users collection
             const user = await userModel.findOne({email:result.data.email});
-            const {otpChances} =  await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number}
+            const {otpChances} =  await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number} || 3 // 3 if the doc gets deleted then default to 3
 
             if(!user && otpChances > 0 ){// if user not found (desired)
                 
