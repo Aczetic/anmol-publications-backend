@@ -367,7 +367,7 @@ router.get('/logged-in',async (req,res)=>{
         }else{// if not expired
 
             //update the jwt with new time to extend the session
-            const {email,role} = (await userModel.findOne({email:result.email}).select({__id:0,email:1,role:1})) as unknown as {email:String,role:String};
+            const {email,role} = (await userModel.findOne({email:result.email}).select({email:1,role:1})) as unknown as {email:String,role:String};
             const newToken = jwt.sign({email,role}, process.env.JWT_SECRET_KEY as Secret,{expiresIn:'1h'});
 
             res.cookie('token', token , (process.env.ENVIRONMENT_NAME === 'DEVELOPMENT'? authCookieSettingsDevelopment : authCookieSettingsProduction) as CookieOptions);
