@@ -20,7 +20,7 @@ const userSchemaSignUp = z.object({
     "school-name": z.string().min( 5 , "Invalid school name"),
     state:         z.string().min(1 , "State is required"),
     city:          z.string().min(1 , "City is required"),
-    address:       z.string().min(1 , "Address is required")
+    address:       z.string().min(1 , "Address is required"),
   }).refine((data)=> data.password === data['confirm-password'],{error:"Both passwords must match" , path : ['confirm-password']})
 
   const userSchemaLogin = z.object({

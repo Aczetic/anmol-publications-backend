@@ -8,7 +8,7 @@ const router = express.Router();
 
 const roleMiddleware = (req:Request , res:Response , next:NextFunction)=>{ // this will check if the role is principal or not
   console.log("here")
-    if((req.body as unknown as {user:{role:string}}).user.role !== 'principal'){
+    if((req.body as unknown as {user:{role:string}}).user.role !== 'principal' && (req.body as unknown as {user:{role:string}}).user.role !== 'admin'){
         
         res.status(401).json({
             success:false,

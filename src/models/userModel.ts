@@ -5,7 +5,7 @@ const UserSchema =new  mongoose.Schema({
     role:{
         type:String,
         required:true,
-        enum:['user','teacher','principal']
+        enum:['user','teacher','principal','admin']
     },
     fullname:{
         type:String,
@@ -39,6 +39,7 @@ const UserSchema =new  mongoose.Schema({
         type:String,
         required:true
     },
+    subscriptions:[mongoose.Schema.ObjectId], // list of books user is allowed to read fully
     createdAt:{
         type:Date,
         defaultValue:Date.now
