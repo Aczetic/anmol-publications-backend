@@ -12,17 +12,17 @@ const bookSchema = new mongoose.Schema({
   },
   seriesName: {
     type: String,
-    defaultValue: "", // some books may not be part of any series
+    default: "", // some books may not be part of any series
   },
   salientFeatures: {
     type: [String],
-    defaultValue: [],
+    default: [],
   },
   supportingMaterial: {
     type: [String],
-    defaultValue: [],
+    default: [],
   },
-  class: { type: Number, defaultValue: "0" }, // 0 means not meant for any class
+  class: { type: Number, default: "0" }, // 0 means not meant for any class
   subject:{ type: String , required : true},
   language : { type: String , required : true},
   edition: { type: Number, required: true },
@@ -43,7 +43,7 @@ const bookSchema = new mongoose.Schema({
       description: { type: String },
     },
   ],
-  images: [String], // TODO: book image upload
+  images: [String], 
   tags: [String], // this helps in book search
   sampleBook: String, // a link to where the books is located
   // TODO: book upload

@@ -7,6 +7,10 @@ const UserSchema =new  mongoose.Schema({
         required:true,
         enum:['user','teacher','principal','admin']
     },
+    inviteCode :{
+        type:String,
+        default:'none'
+    },
     fullname:{
         type:String,
         required:true,
@@ -14,6 +18,10 @@ const UserSchema =new  mongoose.Schema({
     email:{
         type:String,
         required:true,
+    },
+    birthday:{
+        type:String,
+        required:false,
     },
     phone:{
         type:String,
@@ -42,7 +50,7 @@ const UserSchema =new  mongoose.Schema({
     subscriptions:[mongoose.Schema.ObjectId], // list of books user is allowed to read fully
     createdAt:{
         type:Date,
-        defaultValue:Date.now
+        default:Date.now
     }
 })
 

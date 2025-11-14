@@ -7,6 +7,9 @@ import { userSchemaSignUp, userSchemaLogin } from '../customTypes/UserType.js';
 import unverifiedUser from '../models/unverifiedUsers.js';
 import crypto from 'crypto';
 import sendOtp from '../utils/sendOtp.js';
+import sendUpdatePasswordToken from '../utils/sendUpdatePasswordToken.js';
+import forgotPasswordModel from '../models/forgotPasswordModel.js';
+import axios from 'axios';
 
 //TODO: forgot password handling
 //TODO: rate limiting on otp hold the email for a while before it can be used 
@@ -22,7 +25,7 @@ router.post('/login', async(req,res)=>{
 
         if(result.success){ // validation passes
             
-            const user = await userModel.findOne({email:result.data.email});
+            const user = await userModel.findOne({email:result.data.email}).select({_id:0});
             
             if(!user){ // when user does not exist
                 
@@ -104,11 +107,11 @@ router.post('/sign-up', async(req,res)=>{
       
         //validate the incoming data
         const result = z.safeParse(userSchemaSignUp,req.body) ;
-
+        console.log(result);
         if(result.success){ // if validation passes
 
             // check if the users exists or not in the verified users collection
-            const user = await userModel.findOne({email:result.data.email});
+            const user = await userModel.findOne({email:result.data.email}).select({_id:0});
             const {otpChances} =  (await unverifiedUser.findOne({email:req.body.email}).select({otpChances:1}) as {otpChances:number}) || {otpChances:3} // 3 if the doc gets deleted then default to 3
              
             if(user){ // if user found (undesired)
@@ -350,6 +353,7 @@ router.get('/logged-in',async (req,res)=>{
     try{
         const token = req.cookies.token;
         if(!token){// if the token does not exist
+ 
             res.status(401).json({
                 success:false,
                 message:"LOG_IN",
@@ -358,7 +362,7 @@ router.get('/logged-in',async (req,res)=>{
         }
         const result = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as {email:string , role:string};
         const user = result && await userModel.findOne({email:result?.email});
-     
+
         if(!result || !user){// if the session is inactive, token expired
             res.status(200).json({
                 success:false,
@@ -398,7 +402,7 @@ router.get('/logged-in',async (req,res)=>{
 router.post('/resend-otp', async(req,res)=>{
     try{
         
-       const uvUser = await unverifiedUser.findOne({email:req.body.email});
+       const uvUser = await unverifiedUser.findOne({email:req.body.email}).select({_id:0});
 
        if(uvUser?.otpChances! <= 0 ){ // if all 3 chances are exhausted no resending
           res.status(400).json({
@@ -459,5 +463,151 @@ router.post('/resend-otp', async(req,res)=>{
         })
     }
 })
+
+
+//forgot password
+router.post('/forgot-password' , async (req,res)=>{
+    try{
+        const email = req.body.email;
+        
+        const user = await userModel.findOne({email});
+        
+        if(user){// if the user exists
+
+            const token = crypto.randomBytes(32).toString('hex');
+            await forgotPasswordModel.findOneAndUpdate({email} ,{email , token , createdAt : Date.now()}, {upsert:true}); // create a document in forgot-password collection
+            const isTokenSent = await sendUpdatePasswordToken(2,{
+                name:user.fullname,
+                token:token,
+                email:email
+            },
+            {
+                name:'Support',
+                email:'support@anmoleducationalbooks.com'
+            },
+            {
+                name: user.fullname,
+                email: user.email
+            }
+            )// send token embedded link
+            console.log('user exists');
+
+        }
+        res.status(200).json({
+            success: true , 
+            message : 'SUCCESS'
+        })
+
+    }catch(e){
+        console.log(e);
+        res.status(500).json({
+            success:false,
+            message: 'INTERNAL_SERVER_ERROR'
+        })
+    }
+})
+
+//verify token to check the ownwership of the account
+router.get('/verify-token' , async(req,res)=>{
+    try {
+      const token = req.query.token;
+      const email = req.query.email;
+
+      // check if the doc with token and email exists or not
+      if (await forgotPasswordModel.findOne({ email, token })) {
+        
+        res.status(200).json({
+            success: true , 
+            message : 'SUCCESS'
+        })
+        
+    } else {
+        res.status(200).json({
+            success: false, 
+            message : 'INVALID_TOKEN'
+        })
+    }
+    
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            success:false,
+            message:"INTERNAL_SERVER_ERROR"
+        })
+    }
+})
+
+//update password --- this same route will also be used for update password in profile page
+router.post('/update-password' , async(req,res)=>{
+    try{
+
+        const password = req.body.password;
+        const token = req.body.token;
+        const email = req.body.email;
+
+        const isTokenVerified = await new Promise((resolve, rej) => {
+          axios
+            .get(
+              `${
+                process.env.ENVIRONMENT_NAME === "PRODUCTION"
+                  ? "https://api.anmoleducatinoalbooks.com"
+                  : "http://localhost:3000"
+              }/auth/verify-token?token=${token}&email=${email}`
+            )
+            .then((resp) => {
+              if (resp.data.success) {
+                resolve(true);
+              } else {
+                resolve(false);
+                console.log("here1");
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+              resolve(false);
+            });
+        });
+        
+       
+        if(isTokenVerified){// the logic for updating password has to go here
+            
+            const encryptedPassword = bcrypt.hashSync(password , 10);
+            const {password:currentPassword} = await userModel.findOne({email}).select({password:1}) as {password:string}; 
+            
+            // check if the password is not same as old one 
+            if( !bcrypt.compareSync(password , currentPassword)) {
+                
+                await userModel.findOneAndUpdate({email} , {$set: {password : encryptedPassword}});
+                await forgotPasswordModel.deleteOne({email,token}); // delete the doc forcefully if it's found
+               
+                res.status(200).json({
+                    success:true,
+                    message:'SUCCESS'
+                })
+
+            }else{
+                res.status(200).json({
+                    success: false,
+                    message :'OLD_PASSWORD'
+                })
+            }
+
+            
+        }else{
+            res.status(200).json({
+                success:false,
+                message:'INVALID_TOKEN'
+            })
+        }
+
+    }catch(e){
+        console.log(e);
+        res.status(500).json({
+            success:false,
+            message:'INTERNAL_SERVER_ERROR'
+        })
+    }
+})
+
 
 export default router ;

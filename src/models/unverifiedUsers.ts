@@ -16,6 +16,10 @@ const UserSchema =new  mongoose.Schema({
         type:String,
         required:true,
     },
+    birthday:{
+        type:String,
+        required:false,
+    },
     phone:{
         type:String,
         required:true,
@@ -47,12 +51,12 @@ const UserSchema =new  mongoose.Schema({
     otpChances : {
         type:Number,
         required:true,
-        defaultValue:3,
+        default:3,
     },
     createdAt:{
         type:Date,
         required:true,
-        defaultValue:Date.now,
+        default:Date.now,
         expires:600
     },
 
