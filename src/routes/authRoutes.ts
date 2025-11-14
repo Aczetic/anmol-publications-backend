@@ -550,7 +550,7 @@ router.post('/update-password' , async(req,res)=>{
             .get(
               `${
                 process.env.ENVIRONMENT_NAME === "PRODUCTION"
-                  ? "https://api.anmoleducatinoalbooks.com"
+                  ? "https://api.anmoleducationalbooks.com"
                   : "http://localhost:3000"
               }/auth/verify-token?token=${token}&email=${email}`
             )
