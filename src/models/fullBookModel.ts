@@ -1,4 +1,4 @@
-// Here will reside the model for the books with full book link a separate collection to prevent 
+// Here will reside the model for the books with full book link in a separate collection to prevent 
 // the chances of premium asset leak
 // before accessing this collection a check will always be performed whether the user has access 
 

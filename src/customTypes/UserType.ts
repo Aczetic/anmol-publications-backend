@@ -18,7 +18,7 @@ const userSchemaSignUp = z.object({
     email:         z.email({error:'Enter a valid email address'}),
     phone:         z.string().max(10,'Enter a valid phone number').regex(/[1-9][0-9]{9}/, {error:"Enter a valid phone number"}),
     birthday:      z.string('Enter a valid date').refine((val)=> new Date(val).toLocaleDateString() !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Shoul be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Should be > 18 years"),
-    "school-name": z.string().min( 5 , "Invalid school name"),
+    "school-name": z.string().min( 5 , "Invalid school name").transform(val=>val.trim()),
     state:         z.string().min(1 , "State is required"),
     city:          z.string().min(1 , "City is required"),
     address:       z.string().min(1 , "Address is required"),

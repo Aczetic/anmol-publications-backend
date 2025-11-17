@@ -5,6 +5,8 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 //routes
 import authRoutes from './routes/authRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
+import booksRoutes from './routes/booksroutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import miscellaneousRoutes from './routes/miscellaneous.js'
 
@@ -31,8 +33,14 @@ app.get('/ping2' , (req,res)=>{
 //auth routes
 app.use('/auth',authRoutes)
 
+//profile routes
+app.use('/profile' , profileRoutes);
+
 //dashboard routes
-app.use('/dashboard',dashboardRoutes)
+app.use('/dashboard',dashboardRoutes);
+
+// books routes
+app.use('/books' , booksRoutes );
 
 // some other miscellaneous routes
 app.use('/misc',miscellaneousRoutes);
