@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 //routes
 import authRoutes from './routes/authRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
-import booksRoutes from './routes/booksroutes.js';
+import booksRoutes from './routes/booksRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import miscellaneousRoutes from './routes/miscellaneous.js'
 
