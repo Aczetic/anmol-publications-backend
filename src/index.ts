@@ -9,13 +9,14 @@ import profileRoutes from './routes/profileRoutes.js';
 import booksRoutes from './routes/booksRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import miscellaneousRoutes from './routes/miscellaneous.js'
+import rateLimiter from "./middlewares/rateLimiter.js";
 
 //TODO: add a logger to log any server issues to debug later 
-//TODO: rate limiting
 //global middlewares
 const app = express();
 configDotenv();
 connectDB();
+app.use(rateLimiter);
 app.use(cors({ origin:process.env.CLIENT_URL , credentials:true})) // TODO : update the origin value in env to production frontend
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
