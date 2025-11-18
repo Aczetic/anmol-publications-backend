@@ -13,7 +13,7 @@ router.get('/' , async (req, res)=>{
             success: true, 
             message: 'SUCCESS'
         })
-        
+
     }catch(e){
 
         res.status(500).json({
@@ -22,6 +22,8 @@ router.get('/' , async (req, res)=>{
         })
     }
 })
+
+
 
 
 export default router;
