@@ -51,8 +51,6 @@ router.post('/contact-us' , async (req,res)=>{
     
     const transporter = nodemailer.createTransport({
       service: "gmail",
-      port: 587,              // Explicit port for TLS/STARTTLS
-      secure: false,
       auth: {
         user: 'sdfgx243@gmail.com',
         pass: process.env.APP_PASSWORD_MAIL
