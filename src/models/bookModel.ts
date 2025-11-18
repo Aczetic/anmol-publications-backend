@@ -1,10 +1,14 @@
 import mongoose from "mongoose";
 
-const randomStars = ()=>{
-    return Math.floor(Math.random() + 4);
+const generateId = ()=>{
+  return crypto.randomUUID();
 }
 
 const bookSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    default: generateId
+  },
   name: { type: String, required: true, unique: true },
   bookDetail: {
     type: String,
@@ -22,7 +26,7 @@ const bookSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
-  class: { type: Number, default: "0" }, // 0 means not meant for any class
+  class: { type: Number, default: 0 }, // 0 means not meant for any class
   subject:{ type: String , required : true},
   language : { type: String , required : true},
   edition: { type: Number, required: true },
@@ -38,16 +42,24 @@ const bookSchema = new mongoose.Schema({
     },
   ],
   reviews: [
-    {
+    { 
+      name: {type: String},
       stars: { type: Number },
-      description: { type: String },
+      review: { type: String },
     },
   ],
   images: [String], 
   tags: [String], // this helps in book search
   sampleBook: String, // a link to where the books is located
   // TODO: book upload
-  buyLink : [String]
+  buyLink : [{
+    platform: String,
+    link: String
+  }],
+  createdAt:{
+    type: Date,
+    default: Date.now
+  }
 });
 
 const bookModel = mongoose.model('book' , bookSchema);

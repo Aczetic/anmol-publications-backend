@@ -6,10 +6,10 @@ import userModel from "../models/userModel.js";
 // this middleware is perform request auth for actions that super admin can only do
 const superAuthMiddleware = async (req:Request, res:Response, next:NextFunction)=>{
     try{
-        const {email} = jwt.verify(req.cookies.token, process.env.SUPER_ADMIN_JWT_SECRET_KEY as string) as {email:string};
-        const superAdmin = await userModel.findOne({email});
+        const {email} = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY as string) as {email:string};
+        const superAdmin = await userModel.findOne({email}) as {email: string , role: string};
 
-        if(superAdmin){
+        if(superAdmin.email === 'admin@anmoleducationalbooks.com' && superAdmin.role === 'super_admin'){
             next();
         }else{
             res.status(401).json({
@@ -20,7 +20,7 @@ const superAuthMiddleware = async (req:Request, res:Response, next:NextFunction)
 
     }catch(e){
         
-        if((e as {name:string}).name === 'JsonWebtokenError'){
+        if((e as {name:string}).name === 'JsonWebTokenError' || (e as {name: string}).name === 'TokenExpiredError' ){
             res.status(401).json({
                 success: false,
                 message: 'UNAUTHORIZED'
