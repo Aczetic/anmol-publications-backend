@@ -148,7 +148,7 @@ router.post('/contact-us' , async (req,res)=>{
                         <td style="padding: 0 30px 30px 30px;">
                             <h2 style="font-size: 20px; color: #CC0000; margin: 0 0 15px 0; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px;">Message from Contact</h2>
                             <div style="background-color: #f4f4f4; border-radius: 8px; border: 1px solid #e0e0e0; color: #333333; font-size: 16px; padding:1rem; word-break: break-word;">
-                                dfasdfasf asdf asdf asd fasd fasdf
+                                ${message}
                             </div>
                         </td>
                     </tr>
@@ -168,7 +168,7 @@ router.post('/contact-us' , async (req,res)=>{
 </body>
             </html>`, // html body
     });
-
+    console.log('contact us mail sent');
     res.status(201).send({
       success: true,
       message: 'SUCCESS'
