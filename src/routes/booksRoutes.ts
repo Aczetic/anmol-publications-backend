@@ -34,15 +34,15 @@ router.get('/' , async (req, res)=>{
 //to add a book
 router.post('/' , superAuthMiddleware , async (req,res)=>{
     try{
-        const parseBook = BookSchema.safeParse(req.body);
-        if(parseBook.success){
-            const createdBook = await bookModel.create(req.body);
+        const parsedBook = BookSchema.safeParse(req.body);
+        if(parsedBook.success){
+            const createdBook = await bookModel.create(parsedBook.data);
             res.status(201).json({
                 success: true,
                 message: 'SUCCESS',
             })
         }else{
-            console.log(parseBook)
+            console.log(parsedBook)
             res.status(400).json({
                 success: false,
                 message: 'BAD_REQUEST'

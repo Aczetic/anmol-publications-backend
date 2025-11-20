@@ -8,6 +8,7 @@ import authRoutes from './routes/authRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import booksRoutes from './routes/booksRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
+import faqRoutes from './routes/faqRoutes.js';
 import miscellaneousRoutes from './routes/miscellaneous.js'
 import rateLimiter from "./middlewares/rateLimiter.js";
 
@@ -42,6 +43,9 @@ app.use('/dashboard',dashboardRoutes);
 
 // books routes
 app.use('/books' , booksRoutes );
+
+//faqs routes
+app.use('/faqs', faqRoutes);
 
 // some other miscellaneous routes
 app.use('/misc',miscellaneousRoutes);
