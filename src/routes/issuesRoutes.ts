@@ -3,7 +3,6 @@ import superAuthMiddleware from '../middlewares/superAuthMiddleware.js';
 import issueModel from '../models/issueModel.js';
 import IssueSchema from '../customTypes/IssueType.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
-import axios from 'axios';
 
 
 const router = express.Router();
