@@ -84,7 +84,7 @@ router.get('/resolve/:id' , authMiddleware , async (req,res)=>{
 })
 
 //--this request is made serverlessly on vercel only requestResponse is update throug here
-router.get('/request-response/:id', authMiddleware, async (req,res)=>{
+router.get('/request-response/:id', async (req,res)=>{
     try{
         const issue = await issueModel.findOne({issueId: req.params.id});
         if( issue && !issue.resolved && issue.responseRequestDate.getTime() + 24*60*60*1000 < Date.now() ){
