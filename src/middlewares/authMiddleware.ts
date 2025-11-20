@@ -20,7 +20,7 @@ const authMiddleware = async (req : Request , res:Response, next:NextFunction)=>
             next(); // if the user exists then pass the control to handler
         }
     }catch(e){
-        if( (e as {name:string} ).name === 'JsonWebTokenError'){
+        if( (e as {name:string} ).name === 'JsonWebTokenError' || (e as {name:string}).name === 'TokenExpiredError'){
 
             res.status(401).json({
                 success:false,

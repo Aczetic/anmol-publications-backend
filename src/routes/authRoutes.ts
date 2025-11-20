@@ -382,8 +382,8 @@ router.get('/logged-in',async (req,res)=>{
             })
         }
     }catch(e){
-        console.log("the error is " ,(e as {message:string}).message);
-        if( (e as {name:string}).name === 'JsonWebTokenError')
+
+        if( (e as {name:string}).name === 'JsonWebTokenError' || (e as {name:string}).name === 'TokenExpiredError')
         {
             res.status(401).json({
                 success:false,
