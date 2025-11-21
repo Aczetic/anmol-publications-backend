@@ -90,13 +90,16 @@ router.get('/request-response/:id', async (req,res)=>{
         if( issue && !issue.resolved && issue.responseRequestDate.getTime() + 24*60*60*1000 < Date.now() ){
           issue.responseRequestDate = new Date(); // update the date to latest 
           await issue.save();
+          res.status(200).json({
+            success: true,
+            message: 'SUCCESS'
+          })
         } else{
-          console.log('request already made wait for 24 hours')
+          res.status(200).json({
+            success: false,
+            message: 'DUPLICATE'
+          })
         }
-        res.status(200).json({
-          success: true,
-          message: 'SUCCESS'
-        })
     }catch(e){
         console.log(e);
         res.status(500).json({
