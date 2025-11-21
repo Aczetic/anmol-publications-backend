@@ -87,18 +87,29 @@ router.get('/resolve/:id' , authMiddleware , async (req,res)=>{
 router.get('/request-response/:id', async (req,res)=>{
     try{
         const issue = await issueModel.findOne({issueId: req.params.id});
-        if( issue && !issue.resolved && issue.responseRequestDate.getTime() + 24*60*60*1000 < Date.now() ){
-          issue.responseRequestDate = new Date(); // update the date to latest 
+        
+        if (
+          issue &&
+          !issue.resolved &&
+          (
+            issue.responseRequestDate.getTime() + 24 * 60 * 60 * 1000 < Date.now() ||
+            issue.responseRequested === false
+          )
+        ) {
+          issue.responseRequestDate = new Date(); // update the date to latest
+          issue.responseRequested = true;
           await issue.save();
+        
           res.status(200).json({
             success: true,
-            message: 'SUCCESS'
-          })
-        } else{
+            message: "SUCCESS",
+          });
+        
+        } else {
           res.status(200).json({
             success: false,
-            message: 'DUPLICATE'
-          })
+            message: "DUPLICATE",
+          });
         }
     }catch(e){
         console.log(e);
