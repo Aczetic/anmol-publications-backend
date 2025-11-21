@@ -9,7 +9,7 @@ const IssueSchema = new mongoose.Schema({
         issueId: {type:String , default: generateId},
         issueDate: {type:Date , default: Date.now},
         resolveDate: {type:Date},
-        responseRequested: {type:Boolean, defautlt: false},
+        responseRequested: {type:Boolean, default: false},
         responseRequestDate: {type:Date, default: Date.now}, // first response request is the date of issue raising
         subject: {type:String, required:true},
         issue: {type:String , required:true},
