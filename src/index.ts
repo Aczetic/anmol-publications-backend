@@ -27,9 +27,6 @@ app.use(cookieParser());
 
 
 app.get('/ping' , (req,res)=>{ // free tier tactic to prevent from sleeping
-    setTimeout(()=>{
-        axios.get('/ping')
-    },5*60*1000);// every 5 minutes ping self
     res.status(200).send("pinged");
 })
 
