@@ -12,6 +12,7 @@ import faqRoutes from './routes/faqRoutes.js';
 import issueRoutes from './routes/issuesRoutes.js';
 import miscellaneousRoutes from './routes/miscellaneous.js'
 import rateLimiter from "./middlewares/rateLimiter.js";
+import axios from "axios";
 
 //TODO: add a logger to log any server issues to debug later 
 //global middlewares
@@ -26,6 +27,9 @@ app.use(cookieParser());
 
 
 app.get('/ping' , (req,res)=>{ // free tier tactic to prevent from sleeping
+    setTimeout(()=>{
+        axios.get('/ping')
+    },5*60*1000);// every 5 minutes ping self
     res.status(200).send("pinged");
 })
 
