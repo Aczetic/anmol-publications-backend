@@ -29,13 +29,17 @@ router.get('/' , authMiddleware, async (req,res)=>{
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const parsedIssue = IssueSchema.safeParse(req.body);
+   
     console.log("the parse issue is " , parsedIssue);
+    
     if (parsedIssue.success) {
       const issue = await issueModel.create({...(parsedIssue.data) , user: req.body.authMiddleware.user.email});
       res.status(201).json({
         success: true,
         message: "SUCCESS",
+        data:issue // sending the issue because it will be used to send the mail
       });
+   
     } else {
         console.log(req.body.authMiddleware.user.email);
       res.status(400).json({
@@ -43,6 +47,7 @@ router.post("/", authMiddleware, async (req, res) => {
         message: "BAD_REQUEST",
       });
     }
+  
   } catch (e) {
     console.log(e);
     res.status(500).json({
