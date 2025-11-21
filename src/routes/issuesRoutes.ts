@@ -29,8 +29,6 @@ router.get('/' , authMiddleware, async (req,res)=>{
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const parsedIssue = IssueSchema.safeParse(req.body);
-   
-    console.log("the parse issue is " , parsedIssue);
     
     if (parsedIssue.success) {
       const issue = await issueModel.create({...(parsedIssue.data) , user: req.body.authMiddleware.user.email});
@@ -41,7 +39,7 @@ router.post("/", authMiddleware, async (req, res) => {
       });
    
     } else {
-        console.log(req.body.authMiddleware.user.email);
+      console.log(req.body.authMiddleware.user.email);
       res.status(400).json({
         success: false,
         message: "BAD_REQUEST",
@@ -101,23 +99,24 @@ router.get('/request-response/:id', async (req,res)=>{
             issue.responseRequested === false
           )
         ) {
+          
           issue.responseRequestDate = new Date(); // update the date to latest
           issue.responseRequested = true;
           await issue.save();
-          console.log('now the mail will be sent');
+          
           res.status(200).json({
             success: true,
             message: "SUCCESS",
           });
         
         } else {
-          console.log('cannot send themail because',issue?.responseRequestDate.getTime(),
-          issue?.responseRequested)
+          
           res.status(200).json({
             success: false,
             message: "DUPLICATE",
           });
         }
+        
     }catch(e){
         console.log(e);
         res.status(500).json({
