@@ -1,4 +1,4 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import { configDotenv } from "dotenv";
 import connectDB from "./db.js";
 import cors from 'cors';
@@ -10,6 +10,7 @@ import booksRoutes from './routes/booksRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import faqRoutes from './routes/faqRoutes.js';
 import issueRoutes from './routes/issuesRoutes.js';
+import careersRoutes from './routes/careersRoutes.js';
 import miscellaneousRoutes from './routes/miscellaneous.js'
 import rateLimiter from "./middlewares/rateLimiter.js";
 import axios from "axios";
@@ -51,6 +52,9 @@ app.use('/faqs', faqRoutes);
 
 //issues routes
 app.use('/issues', issueRoutes);
+
+//issues routes
+app.use('/careers', careersRoutes);
 
 // some other miscellaneous routes
 app.use('/misc',miscellaneousRoutes);
