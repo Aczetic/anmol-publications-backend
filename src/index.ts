@@ -27,7 +27,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(cookieParser());
 
 
-app.get('/ping' , (req,res)=>{ // free tier tactic to prevent from sleeping
+app.get('/ping1' , (req,res)=>{ // free tier tactic to prevent from sleeping
     res.status(200).send("pinged");
 })
 
