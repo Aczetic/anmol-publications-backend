@@ -253,7 +253,7 @@ router.post('/verify-otp' , async(req,res)=>{
               { email: req.body.email },
               { $inc: { otpChances: -1 } },
               { new: true }
-            ).select({ otpChances: 1 }); // decrese the otp chance by 1
+            ).select({ otpChances: 1 }); // decrease the otp chance by 1
 
           res.status(200).json({
             success: false,
