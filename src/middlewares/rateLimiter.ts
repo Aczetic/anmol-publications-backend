@@ -8,7 +8,7 @@ const requestCountConfig = {
 const startInterval = () =>
   setInterval(() => {
     requestCountConfig.count = 0;
-    requestCountConfig.intervalStarted = true;
+    requestCountConfig.intervalStarted = true; // set this to true which will become false after server sleeps
   }, 1000);// reset the count every second
 
 const rateLimiter = (req:Request, res:Response, next:NextFunction)=>{

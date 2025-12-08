@@ -14,6 +14,7 @@ import careersRoutes from './routes/careersRoutes.js';
 import miscellaneousRoutes from './routes/miscellaneous.js'
 import rateLimiter from "./middlewares/rateLimiter.js";
 import axios from "axios";
+import bookModel from "./models/bookModel.js";
 
 //TODO: add a logger to log any server issues to debug later 
 //global middlewares
@@ -59,5 +60,566 @@ app.use('/careers', careersRoutes);
 // some other miscellaneous routes
 app.use('/misc',miscellaneousRoutes);
 
-
+app.get('/insertmany',async (req,res)=>{
+    try{
+       await bookModel.create([{
+        "name": "Knowledge Insights 1",
+        "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
+        "seriesName": "Knowledge Insights",
+        "salientFeatures": [
+          "This series is based on the guidlines of **NEP 2020** and **NCF 2023**",
+          "The series presents the attractive illustrations of every chapter and latest information, events and topics covered",
+          "**Did you know** provides interesting and astonishing information about the related topic",
+          "**Hint Box** helpts students to answers of questions of chapters easily",
+          "**Mind Aptitude Based Reasoning Questions** help the students to enrich their mental power",
+          "**Interesting Facts and Quiz Time** help the students to enrich their General Knowledge further",
+          "**Model Test Papers** help students in self assessment and exam preparations"
+        ],
+        "supportingMaterial": [
+          "Teacher’s Support Book",
+          "I-book with interactive activities",
+          "Fun animations",
+          "User-friendly test generator",
+          "Printable worksheets",
+          "Step-wise detailed solutions",
+          "Exciting games",
+          "Extensive lesson plans"
+        ],
+        "people" : [
+          {
+            "name": "Tarun Kumar Singh",
+            "designation": "Senior Content Developer",
+            "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+          }
+        ],
+         "class": "1", 
+        "subject":"General Knowledge",
+        "language" : "English",
+        "edition": 1,
+        "publishedBy": "Anmol Educational Books",
+        "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+        "publishYear": "2025",
+        "isbn": "978-81-958453-8-5",
+        "nepYear": "2020",
+        "reviews": [
+          {
+          "name": "Priya L.",
+          "stars": 4.0,
+          "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
+          },
+          {
+          "name": "Rajesh K.",
+          "stars": 4.5,
+          "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
+          },
+          {
+          "name": "Aisha M.",
+          "stars": 4.0,
+          "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
+          },
+          {
+          "name": "Vikas T.",
+          "stars": 5.0,
+          "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+          }
+          ],
+        "images": ["https://imgbox.com/VPKUmk52"],
+        "tags": ["nep","gk" , "english" , "general knowledge"], 
+        "sampleBook": "", 
+        "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
+        "subscribed" : false,
+        "bookList" : [ 
+        ]
+      },
+      {
+        "name": "Knowledge Insights 2",
+        "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
+        "seriesName": "Knowledge Insights",
+        "salientFeatures": [
+          "This series is based on the guidlines of **NEP 2020** and **NCF 2023**",
+          "The series presents the attractive illustrations of every chapter and latest information, events and topics covered",
+          "**Did you know** provides interesting and astonishing information about the related topic",
+          "**Hint Box** helpts students to answers of questions of chapters easily",
+          "**Mind Aptitude Based Reasoning Questions** help the students to enrich their mental power",
+          "**Interesting Facts and Quiz Time** help the students to enrich their General Knowledge further",
+          "**Model Test Papers** help students in self assessment and exam preparations"
+        ],
+        "supportingMaterial": [
+          "Teacher’s Support Book",
+          "I-book with interactive activities",
+          "Fun animations",
+          "User-friendly test generator",
+          "Printable worksheets",
+          "Step-wise detailed solutions",
+          "Exciting games",
+          "Extensive lesson plans"
+        ],
+        "people" : [
+          {
+            "name": "Tarun Kumar Singh",
+            "designation": "Senior Content Developer",
+            "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+          }
+        ],
+         "class": "2", 
+        "subject":"General Knowledge",
+        "language" : "English",
+        "edition": 1,
+        "publishedBy": "Anmol Educational Books",
+        "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+        "publishYear": "2025",
+        "isbn": "978-81-958453-6-1",
+        "nepYear": "2020",
+        "reviews": [
+          {
+          "name": "Priya L.",
+          "stars": 4.0,
+          "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
+          },
+          {
+          "name": "Rajesh K.",
+          "stars": 4.5,
+          "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
+          },
+          {
+          "name": "Aisha M.",
+          "stars": 4.0,
+          "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
+          },
+          {
+          "name": "Vikas T.",
+          "stars": 5.0,
+          "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+          }
+          ],
+        "images": ["https://imgbox.com/mhfHPtm2"],
+        "tags": ["nep","gk" , "english" , "general knowledge"], 
+        "sampleBook": "", 
+        "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
+        "subscribed" : false,
+        "bookList" : [ 
+        ]
+      },
+      {
+        "name": "Knowledge Insights 3",
+        "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
+        "seriesName": "Knowledge Insights",
+        "salientFeatures": [
+          "This series is based on the guidlines of **NEP 2020** and **NCF 2023**",
+          "The series presents the attractive illustrations of every chapter and latest information, events and topics covered",
+          "**Did you know** provides interesting and astonishing information about the related topic",
+          "**Hint Box** helpts students to answers of questions of chapters easily",
+          "**Mind Aptitude Based Reasoning Questions** help the students to enrich their mental power",
+          "**Interesting Facts and Quiz Time** help the students to enrich their General Knowledge further",
+          "**Model Test Papers** help students in self assessment and exam preparations"
+        ],
+        "supportingMaterial": [
+          "Teacher’s Support Book",
+          "I-book with interactive activities",
+          "Fun animations",
+          "User-friendly test generator",
+          "Printable worksheets",
+          "Step-wise detailed solutions",
+          "Exciting games",
+          "Extensive lesson plans"
+        ],
+        "people" : [
+          {
+            "name": "Tarun Kumar Singh",
+            "designation": "Senior Content Developer",
+            "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+          }
+        ],
+         "class": "3", 
+        "subject":"General Knowledge",
+        "language" : "English",
+        "edition": 1,
+        "publishedBy": "Anmol Educational Books",
+        "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+        "publishYear": "2025",
+        "isbn": "978-81-958453-9-2",
+        "nepYear": "2020",
+        "reviews": [
+          {
+          "name": "Priya L.",
+          "stars": 4.0,
+          "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
+          },
+          {
+          "name": "Rajesh K.",
+          "stars": 4.5,
+          "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
+          },
+          {
+          "name": "Aisha M.",
+          "stars": 4.0,
+          "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
+          },
+          {
+          "name": "Vikas T.",
+          "stars": 5.0,
+          "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+          }
+          ],
+        "images": ["https://imgbox.com/gBgFd6N1"],
+        "tags": ["nep","gk" , "english" , "general knowledge"], 
+        "sampleBook": "", 
+        "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
+        "subscribed" : false,
+        "bookList" : [ 
+        ]
+      },
+      {
+        "name": "Knowledge Insights 4",
+        "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
+        "seriesName": "Knowledge Insights",
+        "salientFeatures": [
+          "This series is based on the guidlines of **NEP 2020** and **NCF 2023**",
+          "The series presents the attractive illustrations of every chapter and latest information, events and topics covered",
+          "**Did you know** provides interesting and astonishing information about the related topic",
+          "**Hint Box** helpts students to answers of questions of chapters easily",
+          "**Mind Aptitude Based Reasoning Questions** help the students to enrich their mental power",
+          "**Interesting Facts and Quiz Time** help the students to enrich their General Knowledge further",
+          "**Model Test Papers** help students in self assessment and exam preparations"
+        ],
+        "supportingMaterial": [
+          "Teacher’s Support Book",
+          "I-book with interactive activities",
+          "Fun animations",
+          "User-friendly test generator",
+          "Printable worksheets",
+          "Step-wise detailed solutions",
+          "Exciting games",
+          "Extensive lesson plans"
+        ],
+        "people" : [
+          {
+            "name": "Tarun Kumar Singh",
+            "designation": "Senior Content Developer",
+            "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+          }
+        ],
+         "class": "4", 
+        "subject":"General Knowledge",
+        "language" : "English",
+        "edition": 1,
+        "publishedBy": "Anmol Educational Books",
+        "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+        "publishYear": "2025",
+        "isbn": "978-81-958453-7-8",
+        "nepYear": "2020",
+        "reviews": [
+          {
+          "name": "Priya L.",
+          "stars": 4.0,
+          "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
+          },
+          {
+          "name": "Rajesh K.",
+          "stars": 4.5,
+          "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
+          },
+          {
+          "name": "Aisha M.",
+          "stars": 4.0,
+          "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
+          },
+          {
+          "name": "Vikas T.",
+          "stars": 5.0,
+          "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+          }
+          ],
+        "images": ["https://imgbox.com/0K6VQUgK"],
+        "tags": ["nep","gk" , "english" , "general knowledge"], 
+        "sampleBook": "", 
+        "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
+        "subscribed" : false,
+        "bookList" : [ 
+        ]
+      },
+      {
+        "name": "Knowledge Insights 5",
+        "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
+        "seriesName": "Knowledge Insights",
+        "salientFeatures": [
+          "This series is based on the guidlines of **NEP 2020** and **NCF 2023**",
+          "The series presents the attractive illustrations of every chapter and latest information, events and topics covered",
+          "**Did you know** provides interesting and astonishing information about the related topic",
+          "**Hint Box** helpts students to answers of questions of chapters easily",
+          "**Mind Aptitude Based Reasoning Questions** help the students to enrich their mental power",
+          "**Interesting Facts and Quiz Time** help the students to enrich their General Knowledge further",
+          "**Model Test Papers** help students in self assessment and exam preparations"
+        ],
+        "supportingMaterial": [
+          "Teacher’s Support Book",
+          "I-book with interactive activities",
+          "Fun animations",
+          "User-friendly test generator",
+          "Printable worksheets",
+          "Step-wise detailed solutions",
+          "Exciting games",
+          "Extensive lesson plans"
+        ],
+        "people" : [
+          {
+            "name": "Tarun Kumar Singh",
+            "designation": "Senior Content Developer",
+            "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+          }
+        ],
+         "class": "5", 
+        "subject":"General Knowledge",
+        "language" : "English",
+        "edition": 1,
+        "publishedBy": "Anmol Educational Books",
+        "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+        "publishYear": "2025",
+        "isbn": "978-81-979207-4-5",
+        "nepYear": "2020",
+        "reviews": [
+          {
+          "name": "Priya L.",
+          "stars": 4.0,
+          "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
+          },
+          {
+          "name": "Rajesh K.",
+          "stars": 4.5,
+          "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
+          },
+          {
+          "name": "Aisha M.",
+          "stars": 4.0,
+          "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
+          },
+          {
+          "name": "Vikas T.",
+          "stars": 5.0,
+          "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+          }
+          ],
+        "images": ["https://imgbox.com/x2ZRV6TF"],
+        "tags": ["nep","gk" , "english" , "general knowledge"], 
+        "sampleBook": "", 
+        "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
+        "subscribed" : false,
+        "bookList" : [ 
+        ]
+      },
+      {
+        "name": "Knowledge Insights 6",
+        "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
+        "seriesName": "Knowledge Insights",
+        "salientFeatures": [
+          "This series is based on the guidlines of **NEP 2020** and **NCF 2023**",
+          "The series presents the attractive illustrations of every chapter and latest information, events and topics covered",
+          "**Did you know** provides interesting and astonishing information about the related topic",
+          "**Hint Box** helpts students to answers of questions of chapters easily",
+          "**Mind Aptitude Based Reasoning Questions** help the students to enrich their mental power",
+          "**Interesting Facts and Quiz Time** help the students to enrich their General Knowledge further",
+          "**Model Test Papers** help students in self assessment and exam preparations"
+        ],
+        "supportingMaterial": [
+          "Teacher’s Support Book",
+          "I-book with interactive activities",
+          "Fun animations",
+          "User-friendly test generator",
+          "Printable worksheets",
+          "Step-wise detailed solutions",
+          "Exciting games",
+          "Extensive lesson plans"
+        ],
+        "people" : [
+          {
+            "name": "Tarun Kumar Singh",
+            "designation": "Senior Content Developer",
+            "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+          }
+        ],
+         "class": "6", 
+        "subject":"General Knowledge",
+        "language" : "English",
+        "edition": 1,
+        "publishedBy": "Anmol Educational Books",
+        "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+        "publishYear": "2025",
+        "isbn": "978-81-979207-3-8",
+        "nepYear": "2020",
+        "reviews": [
+          {
+          "name": "Priya L.",
+          "stars": 4.0,
+          "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
+          },
+          {
+          "name": "Rajesh K.",
+          "stars": 4.5,
+          "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
+          },
+          {
+          "name": "Aisha M.",
+          "stars": 4.0,
+          "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
+          },
+          {
+          "name": "Vikas T.",
+          "stars": 5.0,
+          "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+          }
+          ],
+        "images": ["https://imgbox.com/FcW1kxKM"],
+        "tags": ["nep","gk" , "english" , "general knowledge"], 
+        "sampleBook": "", 
+        "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
+        "subscribed" : false,
+        "bookList" : [ 
+        ]
+      },
+      {
+        "name": "Knowledge Insights 7",
+        "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
+        "seriesName": "Knowledge Insights",
+        "salientFeatures": [
+          "This series is based on the guidlines of **NEP 2020** and **NCF 2023**",
+          "The series presents the attractive illustrations of every chapter and latest information, events and topics covered",
+          "**Did you know** provides interesting and astonishing information about the related topic",
+          "**Hint Box** helpts students to answers of questions of chapters easily",
+          "**Mind Aptitude Based Reasoning Questions** help the students to enrich their mental power",
+          "**Interesting Facts and Quiz Time** help the students to enrich their General Knowledge further",
+          "**Model Test Papers** help students in self assessment and exam preparations"
+        ],
+        "supportingMaterial": [
+          "Teacher’s Support Book",
+          "I-book with interactive activities",
+          "Fun animations",
+          "User-friendly test generator",
+          "Printable worksheets",
+          "Step-wise detailed solutions",
+          "Exciting games",
+          "Extensive lesson plans"
+        ],
+        "people" : [
+          {
+            "name": "Tarun Kumar Singh",
+            "designation": "Senior Content Developer",
+            "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+          }
+        ],
+         "class": "7", 
+        "subject":"General Knowledge",
+        "language" : "English",
+        "edition": 1,
+        "publishedBy": "Anmol Educational Books",
+        "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+        "publishYear": "2025",
+        "isbn": "978-81-979207-6-9",
+        "nepYear": "2020",
+        "reviews": [
+          {
+          "name": "Priya L.",
+          "stars": 4.0,
+          "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
+          },
+          {
+          "name": "Rajesh K.",
+          "stars": 4.5,
+          "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
+          },
+          {
+          "name": "Aisha M.",
+          "stars": 4.0,
+          "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
+          },
+          {
+          "name": "Vikas T.",
+          "stars": 5.0,
+          "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+          }
+          ],
+        "images": ["https://imgbox.com/2NrWznT0"],
+        "tags": ["nep","gk" , "english" , "general knowledge"], 
+        "sampleBook": "", 
+        "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
+        "subscribed" : false,
+        "bookList" : [ 
+        ]
+      },
+      {
+        "name": "Knowledge Insights 8",
+        "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
+        "seriesName": "Knowledge Insights",
+        "salientFeatures": [
+          "This series is based on the guidlines of **NEP 2020** and **NCF 2023**",
+          "The series presents the attractive illustrations of every chapter and latest information, events and topics covered",
+          "**Did you know** provides interesting and astonishing information about the related topic",
+          "**Hint Box** helpts students to answers of questions of chapters easily",
+          "**Mind Aptitude Based Reasoning Questions** help the students to enrich their mental power",
+          "**Interesting Facts and Quiz Time** help the students to enrich their General Knowledge further",
+          "**Model Test Papers** help students in self assessment and exam preparations"
+        ],
+        "supportingMaterial": [
+          "Teacher’s Support Book",
+          "I-book with interactive activities",
+          "Fun animations",
+          "User-friendly test generator",
+          "Printable worksheets",
+          "Step-wise detailed solutions",
+          "Exciting games",
+          "Extensive lesson plans"
+        ],
+        "people" : [
+          {
+            "name": "Tarun Kumar Singh",
+            "designation": "Senior Content Developer",
+            "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+          }
+        ],
+         "class": "8", 
+        "subject":"General Knowledge",
+        "language" : "English",
+        "edition": 1,
+        "publishedBy": "Anmol Educational Books",
+        "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+        "publishYear": "2025",
+        "isbn": "978-81-979207-1-4",
+        "nepYear": "2020",
+        "reviews": [
+          {
+          "name": "Priya L.",
+          "stars": 4.0,
+          "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
+          },
+          {
+          "name": "Rajesh K.",
+          "stars": 4.5,
+          "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
+          },
+          {
+          "name": "Aisha M.",
+          "stars": 4.0,
+          "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
+          },
+          {
+          "name": "Vikas T.",
+          "stars": 5.0,
+          "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+          }
+          ],
+        "images": ["https://imgbox.com/VF02lnOB"],
+        "tags": ["nep","gk" , "english" , "general knowledge"], 
+        "sampleBook": "", 
+        "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
+        "subscribed" : false,
+        "bookList" : [ 
+        ]
+      }
+    
+    ])
+    res.send('success')
+    }catch(e){
+        console.log(e);
+        res.send("error")
+    }
+})
 app.listen(process.env.PORT||3000 , ()=>console.log(`Listening at port ${process.env.PORT}`));
