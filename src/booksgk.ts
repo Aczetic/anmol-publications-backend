@@ -1,4 +1,4 @@
-[{
+const gkbooks = [{
     "name": "Knowledge Insights 1",
     "bookDetail": "Knowledge Insights series is a compact, yet comprehensive set of eight books for classes 1 to 8, aimed at providing an exposure of General Knowledge to school students.The series is co-scholastic in its contents and it is supportive to all types of curricula prescribed by various Education Boards throughout India as well as Indian Schools abroad. Knowledge Insights is not just a bunch of questions and answers or just another bundle of facts which have to be memorised. It is an extension of the curriculum recommendations of NCF 2023 and NEP Guidelines 2020, and is aimed at bringing alive General Knowledge in the classroom with quizzes, facts, surveys, activities, life skills, brain teasers, stories, etc. It can also excite, engage and educate a young mind.",
     "seriesName": "Knowledge Insights",
@@ -59,7 +59,7 @@
       "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
       }
       ],
-    "images": ["https://imgbox.com/VPKUmk52"],
+    "images": ["https://images2.imgbox.com/ad/06/VPKUmk52_o.jpg"],
     "tags": ["nep","gk" , "english" , "general knowledge"], 
     "sampleBook": "", 
     "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
@@ -128,7 +128,7 @@
       "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
       }
       ],
-    "images": ["https://imgbox.com/mhfHPtm2"],
+    "images": ["https://images2.imgbox.com/94/47/mhfHPtm2_o.jpg"],
     "tags": ["nep","gk" , "english" , "general knowledge"], 
     "sampleBook": "", 
     "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
@@ -197,7 +197,7 @@
       "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
       }
       ],
-    "images": ["https://imgbox.com/gBgFd6N1"],
+    "images": ["https://images2.imgbox.com/02/e3/gBgFd6N1_o.jpg"],
     "tags": ["nep","gk" , "english" , "general knowledge"], 
     "sampleBook": "", 
     "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
@@ -266,7 +266,7 @@
       "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
       }
       ],
-    "images": ["https://imgbox.com/0K6VQUgK"],
+    "images": ["https://images2.imgbox.com/0e/1d/0K6VQUgK_o.jpg"],
     "tags": ["nep","gk" , "english" , "general knowledge"], 
     "sampleBook": "", 
     "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
@@ -335,7 +335,7 @@
       "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
       }
       ],
-    "images": ["https://imgbox.com/x2ZRV6TF"],
+    "images": ["https://images2.imgbox.com/d3/fd/x2ZRV6TF_o.jpg"],
     "tags": ["nep","gk" , "english" , "general knowledge"], 
     "sampleBook": "", 
     "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
@@ -404,7 +404,7 @@
       "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
       }
       ],
-    "images": ["https://imgbox.com/FcW1kxKM"],
+    "images": ["https://images2.imgbox.com/47/d8/FcW1kxKM_o.jpg"],
     "tags": ["nep","gk" , "english" , "general knowledge"], 
     "sampleBook": "", 
     "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
@@ -473,7 +473,7 @@
       "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
       }
       ],
-    "images": ["https://imgbox.com/2NrWznT0"],
+    "images": ["https://images2.imgbox.com/25/fa/2NrWznT0_o.jpg"],
     "tags": ["nep","gk" , "english" , "general knowledge"], 
     "sampleBook": "", 
     "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
@@ -506,10 +506,15 @@
     ],
     "people" : [
       {
-        "name": "Tarun Kumar Singh",
-        "designation": "Senior Content Developer",
-        "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
-      }
+      "name": "Tarun Kumar Singh",
+      "designation": "Senior Content Developer",
+      "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex content into user-friendly learning material."
+    },
+    {
+      "name": "Anamika Sirvastava",
+      "designation": "Creative Writer",
+      "about": "A published author and freelance copywriter known for developing engaging narrative content. Graduated with a BA in English Literature and has written numerous short stories and educational pieces for young learners."
+    }
     ],
      "class": "8", 
     "subject":"General Knowledge",
@@ -542,7 +547,7 @@
       "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
       }
       ],
-    "images": ["https://imgbox.com/VF02lnOB"],
+    "images": ["https://images2.imgbox.com/57/df/VF02lnOB_o.jpg"],
     "tags": ["nep","gk" , "english" , "general knowledge"], 
     "sampleBook": "", 
     "buyLinks" : [{"platform":"amazon" , "link":""} , {"platform":"flipkart" , "link":""}],
@@ -552,3 +557,5 @@
   }
 
 ]
+
+export default gkbooks;

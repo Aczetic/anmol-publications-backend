@@ -39,6 +39,7 @@ const bookSchema = new mongoose.Schema({
     {
       designation: { type: String, required: true },
       name: { type: String, required: true },
+      about: { type: String, required: true}
     },
   ],
   reviews: [
@@ -52,7 +53,7 @@ const bookSchema = new mongoose.Schema({
   tags: [String], // this helps in book search
   sampleBook: String, // a link to where the books is located
   // TODO: book upload
-  buyLink : [{
+  buyLinks : [{
     platform: String,
     link: String
   }],

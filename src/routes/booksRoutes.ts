@@ -12,6 +12,7 @@ const router = express.Router();
 router.get('/' , async (req, res)=>{
     try{
         const AllBooks = await bookModel.find().limit(20).sort({publishYear: -1});
+        
         res.status(200).json({
             success: true, 
             message: 'SUCCESS',
@@ -30,6 +31,27 @@ router.get('/' , async (req, res)=>{
     }
 })
 
+//TODO: later put optionalAuthMiddleware for optionally checking if the use is logged in or not , to give a varying response
+// this is to be done to when there is is_subscribed and other books related info to be added
+//TODO: also put other books related fields , check in the ui for reference.
+router.get('/book-details/:id' , async(req , res)=>{
+    try{
+        console.log(req.params.id);
+        const book = await bookModel.findOne({id: req.params.id});
+        res.status(200).json({
+                success: true,
+                message: "SUCCESS",
+                data: book
+            }
+        )
+    }catch(e){
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message : "INTERNAL_SERVER_ERROR"
+        })
+    }
+})
 
 //to add a book
 router.post('/' , superAuthMiddleware , async (req,res)=>{
