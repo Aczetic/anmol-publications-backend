@@ -79,5 +79,26 @@ router.post('/' , superAuthMiddleware , async (req,res)=>{
     }
 })
 
+import gkbooks from '../booksgk.js';
+import hindiBooks from '../bookshindi.js';
+import artBooks from '../booksart.js';
+router.get('/insert-many' , async (req , res)=>{
+    try{
+        await bookModel.insertMany(artBooks);
+        res.send("all books uploaded");
+    }catch(e){
+        res.send("something bad happened");
+        console.log(e);
+    }
+})
 
+router.get('/delete-many' , async(req , res)=>{
+    try{
+        await bookModel.deleteMany({seriesName : 'Knowledge Insights'});
+        res.status(200).send("deleted");
+    }catch(e){
+        console.log(e);
+        res.status(500).send("error");
+    }
+})
 export default router;
