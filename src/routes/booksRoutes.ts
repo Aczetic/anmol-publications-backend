@@ -79,9 +79,194 @@ router.post('/' , superAuthMiddleware , async (req,res)=>{
     }
 })
 
+
+//format 
+// const [data, setData] = useState({
+//     announcements: [
+//       {
+//         imageLarge: "",
+//         imageSmall: "",
+//         id: "",
+//         link: "",
+//       },{
+//         imageLarge: "",
+//         imageSmall: "",
+//         id: "",
+//         link: "",
+//       },
+//     ],
+//     booksList: [
+//       {
+//         heading : 'List Heading',
+//         books : [{
+//           id: "1",
+//           image: "",
+//           title: "General Knowledge",
+//         }],
+//       },
+//       {
+//         heading : 'List Heading',
+//         books : [
+//           {
+//           id: "1",
+//           image: "",
+//           title: "General Knowledges",
+//         },  {
+//           id: "2",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "3",
+//           image: "",
+//           title: "General Knowledge",
+//         }, {
+//           id: "12",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "24",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "35",
+//           image: "",
+//           title: "General Knowledge",
+//         }, {
+//           id: "16",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "27",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "33",
+//           image: "",
+//           title: "General Knowledge",
+//         }, {
+//           id: "11",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "23",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "32",
+//           image: "",
+//           title: "General Knowledge",
+//         }, {
+//           id: "17",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "25",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "38",
+//           image: "",
+//           title: "General Knowledge",
+//         }, {
+//           id: "14564",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "256456",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "334524",
+//           image: "",
+//           title: "General Knowledge",
+//         }, {
+//           id: "145245",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "2245234",
+//           image: "",
+//           title: "General Knowledge",
+//         },  {
+//           id: "354345",
+//           image: "",
+//           title: "General Knowledge",
+//         },
+//       ],
+//       },
+//       {
+//         heading : 'List Heading',
+//         books : [{
+//           id: "1",
+//           image: "",
+//           title: "General Knowledge",
+//         }],
+//       },
+//     ],
+//     filters: [
+//       { name: "book_title", options: ["one", "two", "three"] },
+//       { name: "subject", options: ["one", "two", "three"] },
+//       { name: "class", options: ["one", "two", "three"] },
+//       { name: "latest_release", options: ["one", "two", "three"] },
+//       { name: "board", options: ["one", "two", "three"] },
+//   ],
+//   });
+router.get('/books-list', async (req, res) => {
+    try {
+
+        const page = parseInt((req.query.page || '1') as string);
+        console.log(page);
+        const announcements : unknown= [];
+        const booksList = await booksListModel.find({}).skip((page-1)*3).limit(3);
+
+        
+        let subjects: any = {};
+        // this gets the unique subjects because duplicates were coming and I am lazing to do this at query level, useless mongo, or maybe skill issue
+         (await bookModel.find({}).select({subject:1, _id:0})).forEach(each=>
+          {
+            const subject = each.subject as string;
+
+            if(! subjects[subject]){
+                subjects[subject] = 1;
+            }
+
+          }
+         )
+
+         subjects = Object.keys(subjects);
+       
+        
+        // these are hardcoded filters this is not how it is done 
+        // TODO: create a separate model for filters
+        const filters = [
+            { name: "book_title", options: booksList.map(each=>each.heading) },
+            { name: "subject", options: subjects },
+            { name: "class", options: ["Nursery, KG, Prep",...new Array(8).fill(0).map((_,idx)=> 'Class ' + (idx+1))] },
+        ]
+
+        res.status(200).json({
+            success: true,
+            message: 'SUCCESS',
+            data: {announcements, booksList, filters}
+        })
+
+
+    }catch(e){
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message: "INTERNAL_SERVER_ERROR",
+        })
+    }
+})
+
+
+// below is the temporary route to insert books 
+// TODO: remove it asap
 import gkbooks from '../booksgk.js';
 import hindiBooks from '../bookshindi.js';
 import artBooks from '../booksart.js';
+import booksListModel from '../models/booksListModel.js';
 router.get('/insert-many' , async (req , res)=>{
     try{
         await bookModel.insertMany(artBooks);
@@ -92,13 +277,23 @@ router.get('/insert-many' , async (req , res)=>{
     }
 })
 
-router.get('/delete-many' , async(req , res)=>{
+//TOOD: remove asap this is for adding book list
+router.get('/addlist' , async(req ,res )=>{
     try{
-        await bookModel.deleteMany({seriesName : 'Knowledge Insights'});
-        res.status(200).send("deleted");
+        const artMagic =await bookModel.find({name: {$regex : 'Art Magic'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+        const knowledgeInsights =await bookModel.find({name: {$regex : 'Knowledge Insights'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+        const shubhda =await bookModel.find({name: {$regex : 'शुभदा'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+        console.log()
+
+        await booksListModel.create({heading: "Knowledge Insights" , books: knowledgeInsights});
+        // await booksListModel.create({heading: "Art Magic" , books: artMagic});
+        // await booksListModel.create({heading: "शुभदा" , books: shubhda});
+
+        res.send("done");
+
     }catch(e){
         console.log(e);
-        res.status(500).send("error");
+        res.status(500).send("error happened");
     }
 })
 export default router;
