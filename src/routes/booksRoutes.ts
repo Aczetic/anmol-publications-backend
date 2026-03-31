@@ -175,41 +175,41 @@ router.get('/books-list', async (req, res) => {
 
 // below is the temporary route to insert books 
 // TODO: remove it asap
-import gkbooks from '../booksgk.js';
-import hindiBooks from '../bookshindi.js';
-import artBooks from '../booksart.js';
+// import gkbooks from '../booksgk.js';
+// import hindiBooks from '../bookshindi.js';
+// import artBooks from '../booksart.js';
 
-import booksListModel from '../models/booksListModel.js';
-import hindiSulekh from '../booksHindiSulekh.js';
+// import booksListModel from '../models/booksListModel.js';
+// import hindiSulekh from '../booksHindiSulekh.js';
 
 
-router.get('/insert-many' , async (req , res)=>{
-    try{
-        await bookModel.insertMany(hindiSulekh);
-        res.send("all books uploaded");
-    }catch(e){
-        console.log(e);//dfsdf
-        res.send("something bad happened");
-    }
-})
+// router.get('/insert-many' , async (req , res)=>{
+//     try{
+//         await bookModel.insertMany(hindiSulekh);
+//         res.send("all books uploaded");
+//     }catch(e){
+//         console.log(e);//dfsdf
+//         res.send("something bad happened");
+//     }
+// })
 
-//TOOD: remove asap this is for adding book list
-router.get('/addlist' , async(req ,res )=>{
-    try{
-        const artMagic =await bookModel.find({name: {$regex : 'Art Magic'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
-        const knowledgeInsights =await bookModel.find({name: {$regex : 'Knowledge Insights'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
-        const hindiSulekh =await bookModel.find({name: {$regex : 'Picture'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
-        console.log()
+// //TOOD: remove asap this is for adding book list
+// router.get('/addlist' , async(req ,res )=>{
+//     try{
+//         const artMagic =await bookModel.find({name: {$regex : 'Art Magic'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+//         const knowledgeInsights =await bookModel.find({name: {$regex : 'Knowledge Insights'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+//         const hindiSulekh =await bookModel.find({name: {$regex : 'Picture'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+//         console.log()
 
-        await booksListModel.create({heading: "Picture Dictionary" , books: hindiSulekh});
-        // await booksListModel.create({heading: "Art Magic" , books: artMagic});
-        // await booksListModel.create({heading: "शुभदा" , books: shubhda});
+//         await booksListModel.create({heading: "Picture Dictionary" , books: hindiSulekh});
+//         // await booksListModel.create({heading: "Art Magic" , books: artMagic});
+//         // await booksListModel.create({heading: "शुभदा" , books: shubhda});
 
-        res.send("done");
+//         res.send("done");
 
-    }catch(e){
-        console.log(e);
-        res.status(500).send("error happened");
-    }
-})
+//     }catch(e){
+//         console.log(e);
+//         res.status(500).send("error happened");
+//     }
+// })
 export default router;
