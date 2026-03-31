@@ -11,7 +11,7 @@ const router = express.Router();
 // basic info to send cover-img , title , id
 router.get('/' , async (req, res)=>{
     try{
-        const AllBooks = await bookModel.find().limit(20).sort({publishYear: -1});
+        const AllBooks = await bookModel.find().sort({publishYear: -1});
         
         res.status(200).json({
             success: true, 
@@ -104,95 +104,7 @@ router.post('/' , superAuthMiddleware , async (req,res)=>{
 //           title: "General Knowledge",
 //         }],
 //       },
-//       {
-//         heading : 'List Heading',
-//         books : [
-//           {
-//           id: "1",
-//           image: "",
-//           title: "General Knowledges",
-//         },  {
-//           id: "2",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "3",
-//           image: "",
-//           title: "General Knowledge",
-//         }, {
-//           id: "12",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "24",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "35",
-//           image: "",
-//           title: "General Knowledge",
-//         }, {
-//           id: "16",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "27",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "33",
-//           image: "",
-//           title: "General Knowledge",
-//         }, {
-//           id: "11",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "23",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "32",
-//           image: "",
-//           title: "General Knowledge",
-//         }, {
-//           id: "17",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "25",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "38",
-//           image: "",
-//           title: "General Knowledge",
-//         }, {
-//           id: "14564",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "256456",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "334524",
-//           image: "",
-//           title: "General Knowledge",
-//         }, {
-//           id: "145245",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "2245234",
-//           image: "",
-//           title: "General Knowledge",
-//         },  {
-//           id: "354345",
-//           image: "",
-//           title: "General Knowledge",
-//         },
-//       ],
+//    ],
 //       },
 //       {
 //         heading : 'List Heading',
@@ -266,14 +178,18 @@ router.get('/books-list', async (req, res) => {
 import gkbooks from '../booksgk.js';
 import hindiBooks from '../bookshindi.js';
 import artBooks from '../booksart.js';
+
 import booksListModel from '../models/booksListModel.js';
+import hindiSulekh from '../booksHindiSulekh.js';
+
+
 router.get('/insert-many' , async (req , res)=>{
     try{
-        await bookModel.insertMany(artBooks);
+        await bookModel.insertMany(hindiSulekh);
         res.send("all books uploaded");
     }catch(e){
+        console.log(e);//dfsdf
         res.send("something bad happened");
-        console.log(e);
     }
 })
 
@@ -282,10 +198,10 @@ router.get('/addlist' , async(req ,res )=>{
     try{
         const artMagic =await bookModel.find({name: {$regex : 'Art Magic'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
         const knowledgeInsights =await bookModel.find({name: {$regex : 'Knowledge Insights'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
-        const shubhda =await bookModel.find({name: {$regex : 'शुभदा'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+        const hindiSulekh =await bookModel.find({name: {$regex : 'Picture'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
         console.log()
 
-        await booksListModel.create({heading: "Knowledge Insights" , books: knowledgeInsights});
+        await booksListModel.create({heading: "Picture Dictionary" , books: hindiSulekh});
         // await booksListModel.create({heading: "Art Magic" , books: artMagic});
         // await booksListModel.create({heading: "शुभदा" , books: shubhda});
 
