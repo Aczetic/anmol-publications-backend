@@ -2,6 +2,7 @@ import express from 'express';
 import bookModel from '../models/bookModel.js';
 import superAuthMiddleware from '../middlewares/superAuthMiddleware.js';
 import BookSchema from '../customTypes/BookType.js';
+import booksListModel from '../models/booksListModel.js';
 
 
 
@@ -38,10 +39,12 @@ router.get('/book-details/:id' , async(req , res)=>{
     try{
         console.log(req.params.id);
         const book = await bookModel.findOne({id: req.params.id});
+        const booksList = (await bookModel.find({seriesName: book?.seriesName})).sort().filter(each=>each.id !== req.params.id);
+       
         res.status(200).json({
                 success: true,
                 message: "SUCCESS",
-                data: book
+                data: {...(book as any)._doc , booksList}
             }
         )
     }catch(e){
@@ -49,6 +52,54 @@ router.get('/book-details/:id' , async(req , res)=>{
         res.status(500).json({
             success: false,
             message : "INTERNAL_SERVER_ERROR"
+        })
+    }
+})
+
+router.post('/filter' , async (req,res)=>{
+    try{
+        const searchQuery = req.query.q;
+        const filterOptions = { // holds the values from which the db has to match the books' attributes
+            seriesName : [], 
+            class : [], // when the class is not from 1-8 we are defaulting to 0
+            subject: []
+        }
+        
+        for(let i = 0 ; i < req.body.length ; i++){
+            if(req.body[i].name === 'series_name'){
+                (filterOptions.seriesName as string[]).push(req.body[i].option)
+            }else if(req.body[i].name === 'class'){
+                const classVal: string = req.body[i].option;
+                const num = parseInt(classVal.slice(classVal.lastIndexOf(' ')+1));
+
+                (filterOptions.class as number[]).push(isNaN(num) ? 0 : num)
+        
+            }else if(req.body[i].name === 'subject'){
+                (filterOptions.subject as string[]).push(req.body[i].option)
+            }
+        }
+
+        // below because the name in json is stored in title case format and regex matching will fail then
+        const refinedSearchQuery = (searchQuery as string).split(' ').map(each=>(each.slice(0,1).toUpperCase() + each.slice(1))).join(' ');
+        console.log(refinedSearchQuery);
+        const books = await bookModel.find({
+            $or : [
+                {seriesName : {$in : filterOptions.seriesName}},
+                {class : {$in : filterOptions.class}},
+                {subject : {$in : filterOptions.subject}},
+                {seriesName : {$regex:refinedSearchQuery}}
+            ]
+
+        })
+        res.status(200).json({
+            success: true, 
+            message: "SUCCESS",
+            data: books
+        })
+    }catch(e){
+        res.status(500).json({
+            success: false,
+            message : 'INTERNAL_SERVER_ERROR'
         })
     }
 })
@@ -151,7 +202,7 @@ router.get('/books-list', async (req, res) => {
         // these are hardcoded filters this is not how it is done 
         // TODO: create a separate model for filters
         const filters = [
-            { name: "book_title", options: booksList.map(each=>each.heading) },
+            { name: "series_name", options: booksList.map(each=>each.heading) },
             { name: "subject", options: subjects },
             { name: "class", options: ["Nursery, KG, Prep",...new Array(8).fill(0).map((_,idx)=> 'Class ' + (idx+1))] },
         ]
@@ -173,8 +224,8 @@ router.get('/books-list', async (req, res) => {
 })
 
 
-// below is the temporary route to insert books 
-// TODO: remove it asap
+// // below is the temporary route to insert books 
+// // TODO: remove it asap
 // import gkbooks from '../booksgk.js';
 // import hindiBooks from '../bookshindi.js';
 // import artBooks from '../booksart.js';
@@ -198,12 +249,16 @@ router.get('/books-list', async (req, res) => {
 //     try{
 //         const artMagic =await bookModel.find({name: {$regex : 'Art Magic'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
 //         const knowledgeInsights =await bookModel.find({name: {$regex : 'Knowledge Insights'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
-//         const hindiSulekh =await bookModel.find({name: {$regex : 'Picture'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+//         const hindiSulekh =await bookModel.find({seriesName: {$regex : 'English Primary'}}).select({_id:0 , id: 1 , name: 1 , images: 1});
+       
 //         console.log()
 
-//         await booksListModel.create({heading: "Picture Dictionary" , books: hindiSulekh});
+//          await booksListModel.create({heading: "English Primary" , books: hindiSulekh});
 //         // await booksListModel.create({heading: "Art Magic" , books: artMagic});
 //         // await booksListModel.create({heading: "शुभदा" , books: shubhda});
+
+        
+
 
 //         res.send("done");
 
