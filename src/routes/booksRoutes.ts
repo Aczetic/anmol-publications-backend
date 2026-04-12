@@ -56,9 +56,35 @@ router.get('/book-details/:id' , async(req , res)=>{
     }
 })
 
-router.post('/filter' , async (req,res)=>{
+
+router.get('/search' , async(req , res)=>{
     try{
         const searchQuery = req.query.q;
+        // below because the name in json is stored in title case format and regex matching will fail then
+        const refinedSearchQuery = (searchQuery as string).split(' ').map(each=>(each.slice(0,1).toUpperCase() + each.slice(1))).join(' ');
+
+        const books = await bookModel.find({seriesName : {$regex:refinedSearchQuery}})
+
+        res.status(200).json({
+            success: true, 
+            message: "SUCCESS",
+            data: books
+        })
+
+    }catch(e){
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message : "INTERNAL_SERVER_ERROR"
+        })
+    }
+})
+
+
+
+router.post('/filter' , async (req,res)=>{
+    try{
+        
         const filterOptions = { // holds the values from which the db has to match the books' attributes
             seriesName : [], 
             class : [], // when the class is not from 1-8 we are defaulting to 0
@@ -79,15 +105,13 @@ router.post('/filter' , async (req,res)=>{
             }
         }
 
-        // below because the name in json is stored in title case format and regex matching will fail then
-        const refinedSearchQuery = (searchQuery as string).split(' ').map(each=>(each.slice(0,1).toUpperCase() + each.slice(1))).join(' ');
-        console.log(refinedSearchQuery);
+        
+      
         const books = await bookModel.find({
             $or : [
                 {seriesName : {$in : filterOptions.seriesName}},
                 {class : {$in : filterOptions.class}},
                 {subject : {$in : filterOptions.subject}},
-                {seriesName : {$regex:refinedSearchQuery}}
             ]
 
         })
@@ -97,6 +121,7 @@ router.post('/filter' , async (req,res)=>{
             data: books
         })
     }catch(e){
+        console.log(e);
         res.status(500).json({
             success: false,
             message : 'INTERNAL_SERVER_ERROR'
