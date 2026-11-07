@@ -30,7 +30,8 @@ const BookSchema = z.object({
   ),
   images: z.array( z.url('invalid url') ).min(1),
   tags: z.array( z.string() ).max(20), // this helps in book search
-  sampleBook: z.url('invalid url').nullable(), // a link to where the books is located
+  sampleBook: z.string().nullable(), // cloudinary folder of the book pages e.g. anmol/books/brainstorm/brainstorm-4
+  samplePages: z.number().int().positive().nullable().optional(), // number of pages in that folder
   // TODO: book upload
   buyLinks: z.array(z.object({
     platform: z.string(),

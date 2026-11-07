@@ -51,7 +51,8 @@ const bookSchema = new mongoose.Schema({
   ],
   images: [String], 
   tags: [String], // this helps in book search
-  sampleBook: String, // a link to where the books is located
+  sampleBook: String, // cloudinary folder of the book pages e.g. anmol/books/brainstorm/brainstorm-4
+  samplePages: Number, // number of pages in that folder (page-001 , page-002 ...)
   // TODO: book upload
   buyLinks : [{
     platform: String,

@@ -3,6 +3,9 @@ import bookModel from '../models/bookModel.js';
 import superAuthMiddleware from '../middlewares/superAuthMiddleware.js';
 import BookSchema from '../customTypes/BookType.js';
 import booksListModel from '../models/booksListModel.js';
+import { signedPageUrls } from '../utils/bookPages.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+import subscriptionMiddleware from '../middlewares/subscriptionMiddleware.js';
 
 
 
@@ -81,6 +84,34 @@ router.get('/search' , async(req , res)=>{
 })
 
 
+
+// sends the links of the book pages for the flipbook , only for logged in users who have subscribed the book
+// pages are in a private r2 bucket , the links are presigned and expire , so a shared link stops working
+router.get('/sample/:id' , authMiddleware , subscriptionMiddleware , async(req , res)=>{
+    try{
+        const book = await bookModel.findOne({id: req.params.id}).select({sampleBook: 1, samplePages: 1});
+
+        if(!book?.sampleBook || !book.samplePages){
+            res.status(404).json({
+                success: false,
+                message: "NOT_FOUND"
+            })
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "SUCCESS",
+            data: { pages: await signedPageUrls(book.sampleBook, book.samplePages) }
+        })
+    }catch(e){
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message : "INTERNAL_SERVER_ERROR"
+        })
+    }
+})
 
 router.post('/filter' , async (req,res)=>{
     try{
@@ -205,7 +236,21 @@ router.get('/books-list', async (req, res) => {
         const page = parseInt((req.query.page || '1') as string);
         console.log(page);
         const announcements : unknown= [];
-        const booksList = await booksListModel.find({}).skip((page-1)*3).limit(3);
+        // lists are sorted by release year (newest first) and then by name
+        // a list has no year of its own so it is the latest publishYear of its books , if that is empty then the year it was created
+        const booksList = await booksListModel.aggregate([
+            { $lookup: { from: 'books', localField: 'books.id', foreignField: 'id', as: 'bookDetails' } },
+            { $addFields: {
+                releaseYear: { $ifNull: [
+                    { $max: { $map: { input: '$bookDetails', in: { $convert: { input: '$$this.publishYear', to: 'int', onError: null, onNull: null } } } } },
+                    { $year: '$createdAt' }
+                ] }
+            } },
+            { $sort: { releaseYear: -1, heading: 1 } },
+            { $skip: (page-1)*3 },
+            { $limit: 3 },
+            { $project: { bookDetails: 0 } },
+        ]);
 
         
         let subjects: any = {};

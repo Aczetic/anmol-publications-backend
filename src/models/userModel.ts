@@ -47,7 +47,10 @@ const UserSchema =new  mongoose.Schema({
         type:String,
         required:true
     },
-    subscriptions:[mongoose.Schema.ObjectId], // list of books user is allowed to read fully
+    subscriptions:{ // ids (book.id) of the books the user has subscribed and is allowed to read
+        type:[String],
+        default:[]
+    },
     createdAt:{
         type:Date,
         default:Date.now
